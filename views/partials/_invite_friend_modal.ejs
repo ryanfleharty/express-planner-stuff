@@ -1,0 +1,31 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inviteFriendModal">
+    Invite a friend
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="inviteFriendModal" tabindex="-1" role="dialog" aria-labelledby="inviteFriendModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/invitations" method="post">
+                <input type="hidden" value="<%=plan.id%>" name="planId">
+                <select name="userId">
+                    <% for(let i=0; i < user.friends.length; i++){ %>
+                       <option value="<%= user.friends[i]._id %>"><%= user.friends[i].displayName %></option> 
+                    <% } %>
+                </select>
+        </div>
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Invite</button>
+                </div>
+            </form>
+      </div>
+    </div>
+  </div>

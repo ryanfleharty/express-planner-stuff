@@ -1,0 +1,13 @@
+<%- include("../partials/_head") %>
+    <p>Let's add a new stop to <%= plan.title %></p>
+    <form action="/plans/<%=plan.id%>/stops/search" id="locationForm">
+        <label for="query">Search for:</label>
+        <input type="text" name="query">
+        <label for="city">City:</label>
+        <input type="text" name="city">
+        <input type="submit" value="GIMME STUFF TO DO">
+    </form>
+<div class="results">
+
+</div>
+<% include ../partials/_footer.ejs %>

@@ -1,0 +1,111 @@
+<%- include("partials/_head") %>
+<style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map {
+      height: 20em;
+      width: 50%;
+      margin-left: 20%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+<script>
+    var map;
+    function initMap() {
+        let center;
+        <% if(last_location){ %>
+            center = {lat: <%= last_location.latitude %>, lng: <%= last_location.longitude %>}
+        <% } else if(places[0]) { %>
+            center = {lat: <%= places[0].latitude %>, lng: <%= places[0].longitude %>}
+        <% } else { %>
+            center = {lat: 35, lng: 110}
+        <% } %>
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: center,
+        mapTypeId: 'terrain'
+      });
+    // Loop through the results array and place a marker for each
+    // set of coordinates.
+    console.log('initMap has been called, about to loop')
+        let contentString, placeinfowindow, marker;
+        let openMarkers = [];
+        <% for(let i=0; i < places.length; i++){ %>
+            //I SHOULD MAKE THIS A FUNCTION SOMEWHERE JEEZE
+                contentString = '<div class="map-content">'+
+                '<div class="siteNotice">'+
+                '</div>'+
+                '<p class="firstHeading"><%= places[i].name %></p>'+
+                '<div id="bodyContent">'+
+                '</div>'+
+                '</div>';
+                placeinfowindow = new google.maps.InfoWindow({
+                                content: contentString
+                                })
+                new google.maps.Marker({ 
+                    position: {
+                        "lat": <%= places[i].latitude %>,
+                        "lng": <%= places[i].longitude %>
+                    },
+                    map: map ,
+                    infowindow: placeinfowindow
+                }).addListener('click', function() {
+                    openMarkers.forEach((openMarker)=>{
+                        openMarker.infowindow.close(map, openMarker)
+                    })
+                    openMarkers.push(this);
+                    this.infowindow.open(map, this); // "this" is the marker, timing issues necessitate using it instead of the variable 'marker'
+                });
+        <% } %>
+        // Place a special marker at the last location
+      <% if(last_location){ %>
+            let lastLocationContentString = '<div class="map-content">'+
+                '<div class="siteNotice">'+
+                '</div>'+
+                '<p class="firstHeading"><%= last_location.name %></p>'+
+                '<div id="bodyContent">'+
+                '</div>'+
+                '</div>';
+            let infowindow = new google.maps.InfoWindow({
+            content: lastLocationContentString
+            });
+            var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+            marker = new google.maps.Marker({ 
+                    position: {
+                        "lat": <%= last_location.latitude %>,
+                        "lng": <%= last_location.longitude %>
+                    },
+                    map: map,
+                    icon: image,
+                    zIndex: 1000,
+                    infowindow: infowindow
+            });
+            marker.addListener('click', function() {
+                openMarkers.forEach((openMarker)=>{
+                        openMarker.infowindow.close(map, openMarker)
+                })
+                infowindow.open(map, marker);
+                openMarkers.push(marker);
+            });
+        <% } %>
+    }
+  </script>
+    <div id="map"></div>
+  
+<div class="row">
+    <% for (let i = 0; i < places.length; i++){ %>
+        <% let place = places[i] %>
+        <% if(place){ %>
+            <% include ./partials/_place-result-card %>
+        <% } %>
+    <% } %>
+</div>
+<% include ./partials/_footer %>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=<%=maps_key%>&callback=initMap">
+</script>

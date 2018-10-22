@@ -1,0 +1,18 @@
+<%- include("../partials/_head") %>
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+                <h1>START A NEW PLAN</h1>
+            <form action="/plans" method="post">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Plan title:</label>
+                  <input type="text" name="title" class="form-control" id="exampleInputEmail1" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" name="date">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+        </div>
+    </div>
+<% include ../partials/_footer %>

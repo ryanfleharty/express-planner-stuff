@@ -1,0 +1,9 @@
+<%- include("../partials/_head") %>
+    <h1>Search for users</h1>
+    <% for(let i = 0; i < users.length; i++) { %>
+        <h4><%= users[i].displayName %></h4>
+        <form action="/users/<%=users[i].id%>/add-friend" method="post">
+            <input type="submit" value="Add Friend">
+        </form>
+    <% } %>
+<% include ../partials/_footer.ejs %>

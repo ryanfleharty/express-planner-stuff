@@ -1,0 +1,13 @@
+<%- include("../partials/_head") %>
+    <h1>HERE ARE YOUR PLANS</h1>
+    <% for(let i = 0; i < plans.length; i++){ %>
+        <h2><%= plans[i].title %></h2>
+        <a href="/plans/<%= plans[i].id %>">View plan</a>
+    <% } %>
+    <h2>Here are plans you are invited to</h2>
+    <% for(let i = 0; i < invitedPlans.length; i++){ %>
+        <% let plan = invitedPlans[i].plan %>
+        <h2><%= plan.title %></h2>
+        <a href="/plans/<%= plan.id %>">View plan</a>
+    <% } %>
+<% include ../partials/_footer.ejs %>

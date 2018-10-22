@@ -1,0 +1,10 @@
+<%- include("../partials/_head") %>
+    <h2><%= plan.title %></h2>
+    <h3>Planned by: <%= plan.creator.displayName %> - <%= plan.date.toDateString() %></h3>
+    <a href="/plans/<%=plan.id%>/stops/new">Add a new stop to this plan</a>
+    <h5>Here's the current stops</h5>
+    <% for(let i = 0; i < plan.stops.length; i++){ %>
+        <p><%= plan.stops[i].location.name %></p>
+    <% } %>
+    <% include ../partials/_invite_friend_modal %>
+<%- include ../partials/_footer %>

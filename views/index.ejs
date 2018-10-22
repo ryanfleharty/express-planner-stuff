@@ -1,0 +1,14 @@
+<%- include("./partials/_head") %>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js></script>
+<script>
+  var socket = io.connect();
+  socket.emit('joinRoom', { room: "ryans"})
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+</script>
+    <h1>WELCOME HOME</h1>
+    <a href="/auth/register">Register</a>
+    <a href="/auth/login">Login</a>
+<% include ./partials/_footer.ejs %>

@@ -1,0 +1,39 @@
+<div class="place col-sm-4">
+    <% if (i%3==0) { %>
+        <div class="clearfix"></div>
+    <% } %>
+      <p><%= place.name %></p>
+      latitude: <%= place.latitude %>
+      <%= place.longitude %>
+      <% if(last_location){ %>
+        <p>Distance from most recent stop: <%= calcDistance(place.latitude, place.longitude, last_location.latitude, last_location.longitude) %> miles</p>
+      <% } %>
+      
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#place-modal-<%= i %>">View</button>
+      <form action="/plans/<%= plan.id %>/stops" method="post">
+        <input type="hidden" name="locationId" value="<%= place._id %>">
+        <button type="submit" class="btn btn-primary">Add to Trip</button>
+      </form>
+      <div class="modal fade" id="place-modal-<%= i %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><%= place.name %></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p><%= place.rating %></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="/plans/<%= plan.id %>/stops" method="post">
+                  <input type="hidden" name="locationId" value="<%= place._id %>">
+                  <button type="submit" class="btn btn-primary">Add to Trip</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
